@@ -3,4 +3,7 @@
     <string name="adicionar_palavra">Adicionar palavra</string>
     <string name="title">Title:</string>
     <string name="description">Description:</string>
+    <string name="note_title">Note Title</string>
+    <string name="note_description">Note Description (optional)</string>
+    <string name="add_note">Add Note</string>
 </resources>
