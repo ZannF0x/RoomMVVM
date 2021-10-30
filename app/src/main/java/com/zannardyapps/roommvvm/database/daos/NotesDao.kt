@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface NotesDao {
 
-    @Query("SELECT * FROM notes_table ORDER BY notes_id ASC")
+    @Query("SELECT * FROM notes_table ORDER BY notes_title ASC")
     fun getNotes(): Flow<List<Notes>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -18,4 +18,7 @@ interface NotesDao {
 
     @Query("DELETE FROM notes_table")
     suspend fun deleteAllNotes()
+
+    
+
 }

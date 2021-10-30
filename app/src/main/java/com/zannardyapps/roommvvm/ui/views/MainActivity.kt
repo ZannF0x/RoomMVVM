@@ -1,12 +1,15 @@
 package com.zannardyapps.roommvvm.ui.views
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zannardyapps.roommvvm.application.NotesApplication
+import com.zannardyapps.roommvvm.database.model.Notes
 import com.zannardyapps.roommvvm.databinding.ActivityMainBinding
 import com.zannardyapps.roommvvm.ui.adapter.NotesAdapter
 import com.zannardyapps.roommvvm.ui.viewmodel.NotesViewModel
@@ -29,16 +32,35 @@ class MainActivity : AppCompatActivity() {
 
         initRecyclerView()
 
+        val resultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if(result.resultCode == Activity.RESULT_OK){
+                    result.data?.let {
+
+                        val title = it.getStringExtra("title")?:""
+                        val description = it.getStringExtra("description")?:""
+
+                        val notes: Notes = Notes(title, description)
+                        notesViewModel.insert(notes)
+
+                    }
+                }
+        }
+
+        binding.fabAddNote.setOnClickListener {
+            resultLauncher.launch(Intent(this, NewNoteActivity::class.java))
+        }
+
     }
 
     override fun onStart() {
         super.onStart()
 
-        
-
-        binding.fabAddNote.setOnClickListener {
-            initNewNoteActivity()
-        }
+        notesViewModel.allNotesLiveData.observe(this,{ listNotes ->
+            listNotes?.let { notes ->
+                notesAdapter.submitList(notes)
+            }
+        })
     }
 
 
@@ -50,8 +72,5 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
     }
 
-    private fun initNewNoteActivity(){
-        val intent = Intent(this, NewNoteActivity::class.java)
-        startActivity(intent)
-    }
+
 }
