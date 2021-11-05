@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RoomMVVM</string>
+    <string name="app_name">Notes</string>
     <string name="adicionar_palavra">Adicionar palavra</string>
     <string name="title">Title:</string>
     <string name="description">Description:</string>

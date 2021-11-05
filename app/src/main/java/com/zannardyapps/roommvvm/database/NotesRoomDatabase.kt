@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.zannardyapps.roommvvm.database.daos.NotesDao
 import com.zannardyapps.roommvvm.database.model.Notes
 
-@Database(entities = [Notes::class], version = 1, exportSchema = false)
+@Database(entities = [Notes::class], version = 2, exportSchema = false)
 abstract class NotesRoomDatabase: RoomDatabase() {
 
     abstract fun notesDao(): NotesDao
@@ -24,6 +24,7 @@ abstract class NotesRoomDatabase: RoomDatabase() {
                 context.applicationContext,
                 NotesRoomDatabase::class.java,
                 DATABASE_NAME)
+                .fallbackToDestructiveMigration()
                 .build()
 
         fun getInstance(context: Context):NotesRoomDatabase =

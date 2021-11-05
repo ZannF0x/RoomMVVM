@@ -43,7 +43,7 @@ class NotesAdapter: ListAdapter<Notes, NotesAdapter.NotesViewHolder>(NotesCompar
         }
 
         override fun areContentsTheSame(oldItem: Notes, newItem: Notes): Boolean {
-            return oldItem.notesTitle == newItem.notesTitle
+            return oldItem.notesId == newItem.notesId
         }
 
     }
