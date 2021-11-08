@@ -10,8 +10,13 @@ class NotesRepository(private val notesDao: NotesDao) {
     val allNotes: Flow<List<Notes>> = notesDao.getNotes()
 
     @Suppress("RedundantSuspendModifier")
-    @WorkerThread
+   // @WorkerThread
     suspend fun insert(notes: Notes){
         notesDao.insert(notes)
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    suspend fun delete(notes: Notes){
+        notesDao.delete(notes)
     }
 }

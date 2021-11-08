@@ -3,14 +3,19 @@ package com.zannardyapps.roommvvm.ui.viewmodel
 import androidx.lifecycle.*
 import com.zannardyapps.roommvvm.database.model.Notes
 import com.zannardyapps.roommvvm.repository.NotesRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class NotesViewModel(private val repository: NotesRepository): ViewModel() {
 
     val allNotesLiveData: LiveData<List<Notes>> = repository.allNotes.asLiveData()
 
-    fun insert(notes: Notes) = viewModelScope.launch {
+    fun insert(notes: Notes) = viewModelScope.launch(Dispatchers.IO) {
         repository.insert(notes)
+    }
+
+    fun delete(notes: Notes) = viewModelScope.launch(Dispatchers.IO) {
+        repository.delete(notes)
     }
 
 }

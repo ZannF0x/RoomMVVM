@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -64,6 +65,23 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    override fun onResume() {
+        super.onResume()
+
+        notesViewModel.allNotesLiveData.observe(this,{ listNotes ->
+
+            notesAdapter.listenerActionRemove = { noteSelected ->
+                //Toast.makeText(this, "${it.notesId}", Toast.LENGTH_LONG).show()
+                notesViewModel.delete(noteSelected)
+
+                listNotes?.let { notes ->
+                    notesAdapter.submitList(notes)
+                }
+            }
+
+        })
+
+    }
 
     private fun initRecyclerView(){
         recyclerView = binding.recyclerview

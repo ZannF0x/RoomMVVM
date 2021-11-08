@@ -37,5 +37,15 @@
         android:contentDescription="@string/adicionar_palavra"/>
 
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="@color/white">
+
+
+
+    </FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

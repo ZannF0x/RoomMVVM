@@ -18,6 +18,6 @@ interface NotesDao {
 
     //@Query("DELETE FROM yourDatabaseTable WHERE id = :id")
     @Delete
-    fun deleted(notes: Notes)
+    fun delete(notes: Notes)
 
 }
