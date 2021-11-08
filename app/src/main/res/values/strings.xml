@@ -8,4 +8,6 @@
     <string name="add_note">Add Note</string>
     <string name="remove_note">Remove Note</string>
     <string name="remover_nota">Remover Nota</string>
+    <string name="no_annotation_added">No annotation added…</string>
+    <string name="icon_to_app">icon to app</string>
 </resources>
