@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RoomMVVM">
         <activity
+            android:name=".ui.views.EditNotesActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.views.NewNoteActivity"
             android:exported="true">
         </activity>

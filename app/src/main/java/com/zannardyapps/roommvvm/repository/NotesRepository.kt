@@ -19,4 +19,9 @@ class NotesRepository(private val notesDao: NotesDao) {
     suspend fun delete(notes: Notes){
         notesDao.delete(notes)
     }
+
+    @Suppress("RedundantSuspendModifier")
+    suspend fun update(title: String, description: String, id: Int){
+        notesDao.update(title, description, id)
+    }
 }

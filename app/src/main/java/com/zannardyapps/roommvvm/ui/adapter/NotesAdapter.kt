@@ -1,22 +1,17 @@
 package com.zannardyapps.roommvvm.ui.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.zannardyapps.roommvvm.R
 import com.zannardyapps.roommvvm.database.model.Notes
 import com.zannardyapps.roommvvm.databinding.RecyclerviewNotesItemBinding
 
 class NotesAdapter: ListAdapter<Notes, NotesAdapter.NotesViewHolder>(NotesComparator()) {
 
-    var listenerActionRemove:(Notes) -> Unit = {
-
-    }
+    var listenerActionRemove:(Notes) -> Unit = {}
+    var listenerActionEdit:(Notes) -> Unit = {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesViewHolder {
         val binding = RecyclerviewNotesItemBinding
@@ -30,11 +25,11 @@ class NotesAdapter: ListAdapter<Notes, NotesAdapter.NotesViewHolder>(NotesCompar
         holder.bind(current, current.notesTitle, current.notesDescription)
     }
 
-
     inner class NotesViewHolder(binding: RecyclerviewNotesItemBinding):
         RecyclerView.ViewHolder(binding.root){
 
         private val notesDelete = binding.notesOptions
+        private val notesEdit = binding.notesOptionsEdit
         private val notesTitle = binding.textViewTitle
         private val notesDescription = binding.textViewDescription
 
@@ -44,6 +39,10 @@ class NotesAdapter: ListAdapter<Notes, NotesAdapter.NotesViewHolder>(NotesCompar
 
             notesDelete.setOnClickListener {
                 listenerActionRemove(item)
+            }
+
+            notesEdit.setOnClickListener {
+                listenerActionEdit(item)
             }
 
         }

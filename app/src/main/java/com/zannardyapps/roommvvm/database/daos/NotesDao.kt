@@ -16,6 +16,10 @@ interface NotesDao {
     @Query("DELETE FROM notes_table")
     suspend fun deleteAllNotes()
 
+    //@Update(entity = Notes::class) notes: Notes
+    @Query("UPDATE notes_table SET notes_title = :title, notes_description = :description WHERE notes_id =:id")
+    suspend fun update(title: String, description: String, id: Int)
+
     //@Query("DELETE FROM yourDatabaseTable WHERE id = :id")
     @Delete
     fun delete(notes: Notes)

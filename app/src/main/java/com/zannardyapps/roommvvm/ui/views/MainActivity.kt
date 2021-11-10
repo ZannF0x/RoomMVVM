@@ -5,7 +5,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,7 +22,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var notesAdapter: NotesAdapter
 
-    private val notesViewModel: NotesViewModel by viewModels{
+    private val notesViewModel: NotesViewModel by viewModels {
         NotesViewModelFactory((application as NotesApplication).repository)
     }
 
@@ -34,23 +33,23 @@ class MainActivity : AppCompatActivity() {
 
         initRecyclerView()
 
-        val resultLauncher =
+        val resultLauncherNewNoteActivity =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                if(result.resultCode == Activity.RESULT_OK){
+                if (result.resultCode == Activity.RESULT_OK) {
                     result.data?.let {
 
-                        val title = it.getStringExtra("title")?:""
-                        val description = it.getStringExtra("description")?:""
+                        val title = it.getStringExtra("title") ?: ""
+                        val description = it.getStringExtra("description") ?: ""
 
                         val notes: Notes = Notes(title, description)
                         notesViewModel.insert(notes)
 
                     }
                 }
-        }
+            }
 
         binding.fabAddNote.setOnClickListener {
-            resultLauncher.launch(Intent(this, NewNoteActivity::class.java))
+            resultLauncherNewNoteActivity.launch(Intent(this, NewNoteActivity::class.java))
         }
 
     }
@@ -58,8 +57,8 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        notesViewModel.allNotesLiveData.observe(this,{ listNotes ->
-            if (listNotes.isEmpty()){
+        notesViewModel.allNotesLiveData.observe(this, { listNotes ->
+            if (listNotes.isEmpty()) {
                 binding.frameLayoutId.visibility = View.VISIBLE
             } else {
                 binding.frameLayoutId.visibility = View.GONE
@@ -76,33 +75,38 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        notesViewModel.allNotesLiveData.observe(this,{ listNotes ->
+        notesViewModel.allNotesLiveData.observe(this, { listNotes ->
 
-            if (listNotes.isEmpty()){
+            if (listNotes.isEmpty()) {
                 binding.frameLayoutId.visibility = View.VISIBLE
             } else {
                 binding.frameLayoutId.visibility = View.GONE
             }
 
-            notesAdapter.listenerActionRemove = { noteSelected ->
-                //Toast.makeText(this, "${it.notesId}", Toast.LENGTH_LONG).show()
-                notesViewModel.delete(noteSelected)
-
-                listNotes?.let { notes ->
-                    notesAdapter.submitList(notes)
-                }
+            listNotes?.let { notes ->
+                notesAdapter.submitList(notes)
             }
 
         })
 
+        notesAdapter.listenerActionRemove = { noteSelected ->
+            notesViewModel.delete(noteSelected)
+        }
+
+        notesAdapter.listenerActionEdit = { noteSelected ->
+            val intent = Intent(this, EditNotesActivity::class.java)
+            intent.putExtra("id", noteSelected.notesId)
+            intent.putExtra("title", noteSelected.notesTitle)
+            intent.putExtra("description", noteSelected.notesDescription)
+            startActivity(intent)
+        }
+
     }
 
-    private fun initRecyclerView(){
+    private fun initRecyclerView() {
         recyclerView = binding.recyclerview
         notesAdapter = NotesAdapter()
         recyclerView.adapter = notesAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
     }
-
-
 }

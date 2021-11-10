@@ -10,4 +10,5 @@
     <string name="remover_nota">Remover Nota</string>
     <string name="no_annotation_added">No annotation added…</string>
     <string name="icon_to_app">icon to app</string>
+    <string name="edit_note">edit note</string>
 </resources>
