@@ -7,15 +7,13 @@ import androidx.room.RoomDatabase
 import com.zannardyapps.roommvvm.database.daos.NotesDao
 import com.zannardyapps.roommvvm.database.model.Notes
 
-@Database(entities = [Notes::class], version = 2, exportSchema = false)
+@Database(entities = [Notes::class], version = 3, exportSchema = false)
 abstract class NotesRoomDatabase: RoomDatabase() {
 
     abstract fun notesDao(): NotesDao
 
     companion object {
-
         private const val DATABASE_NAME: String = "notes_database"
-
         @Volatile
         private var INSTANCE: NotesRoomDatabase? = null
 
@@ -27,12 +25,8 @@ abstract class NotesRoomDatabase: RoomDatabase() {
                 .fallbackToDestructiveMigration()
                 .build()
 
-        fun getInstance(context: Context):NotesRoomDatabase =
-            INSTANCE ?: synchronized(this){
+        fun getInstance(context: Context):NotesRoomDatabase = INSTANCE ?: synchronized(this){
                 INSTANCE ?: buildDataBase(context).also { INSTANCE = it }
-            }
-
-
+        }
     }
-
 }

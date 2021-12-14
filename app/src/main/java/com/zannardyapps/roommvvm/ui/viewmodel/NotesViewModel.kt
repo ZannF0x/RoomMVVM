@@ -24,6 +24,10 @@ class NotesViewModel(private val repository: NotesRepository): ViewModel() {
         repository.update(title, description, id)
     }
 
+    fun deleteAllNotes() = viewModelScope.launch(Dispatchers.IO) {
+        repository.deleteAllNotes()
+    }
+
 }
 
 class NotesViewModelFactory(private val repository: NotesRepository) : ViewModelProvider.Factory {

@@ -24,4 +24,9 @@ class NotesRepository(private val notesDao: NotesDao) {
     suspend fun update(title: String, description: String, id: Int){
         notesDao.update(title, description, id)
     }
+
+    @Suppress("RedundantSuspendModifier")
+    suspend fun deleteAllNotes(){
+        notesDao.deleteAllNotes()
+    }
 }

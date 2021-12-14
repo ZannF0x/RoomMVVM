@@ -1,14 +1,28 @@
 <resources>
     <string name="app_name">Notes</string>
+
+    <!-- NotesActivity -->
+    <string name="toolbarTitle">My Notes</string>
     <string name="adicionar_palavra">Adicionar palavra</string>
-    <string name="title">Title:</string>
-    <string name="description">Description:</string>
-    <string name="note_title">Note Title</string>
-    <string name="note_description">Note Description (optional)</string>
-    <string name="add_note">Add Note</string>
-    <string name="remove_note">Remove Note</string>
-    <string name="remover_nota">Remover Nota</string>
     <string name="no_annotation_added">No annotation added…</string>
     <string name="icon_to_app">icon to app</string>
+
+    <!-- RecyclerView Notes -->
+    <string name="title">Title:</string>
+    <string name="description">Description:</string>
+    <string name="remove_note">Remove Note</string>
+    <string name="remover_nota">Remover Nota</string>
+
+    <!-- NewNoteActivity / EditNotesActivity-->
+    <string name="note_title">Note Title</string>
+    <string name="note_description">Note Description (optional)</string>
+    <!-- NewNoteActivity Button -->
     <string name="edit_note">edit note</string>
+    <!-- EditNotesActivity Button -->
+    <string name="add_note">Add Note</string>
+
+
+    <!-- NotesActivity Menu -->
+    <string name="remove_all_notes">Remove all Notes</string>
+
 </resources>

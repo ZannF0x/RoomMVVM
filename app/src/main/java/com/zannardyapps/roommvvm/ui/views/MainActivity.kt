@@ -4,11 +4,16 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.zannardyapps.roommvvm.R
 import com.zannardyapps.roommvvm.application.NotesApplication
 import com.zannardyapps.roommvvm.database.model.Notes
 import com.zannardyapps.roommvvm.databinding.ActivityMainBinding
@@ -31,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        notesToolbar()
         initRecyclerView()
 
         val resultLauncherNewNoteActivity =
@@ -47,7 +53,6 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-
         binding.fabAddNote.setOnClickListener {
             resultLauncherNewNoteActivity.launch(Intent(this, NewNoteActivity::class.java))
         }
@@ -56,43 +61,33 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-
         notesViewModel.allNotesLiveData.observe(this, { listNotes ->
             if (listNotes.isEmpty()) {
                 binding.frameLayoutId.visibility = View.VISIBLE
             } else {
                 binding.frameLayoutId.visibility = View.GONE
             }
-
             listNotes?.let { notes ->
                 notesAdapter.submitList(notes)
             }
         })
-
     }
-
 
     override fun onResume() {
         super.onResume()
-
         notesViewModel.allNotesLiveData.observe(this, { listNotes ->
-
             if (listNotes.isEmpty()) {
                 binding.frameLayoutId.visibility = View.VISIBLE
             } else {
                 binding.frameLayoutId.visibility = View.GONE
             }
-
             listNotes?.let { notes ->
                 notesAdapter.submitList(notes)
             }
-
         })
-
         notesAdapter.listenerActionRemove = { noteSelected ->
             notesViewModel.delete(noteSelected)
         }
-
         notesAdapter.listenerActionEdit = { noteSelected ->
             val intent = Intent(this, EditNotesActivity::class.java)
             intent.putExtra("id", noteSelected.notesId)
@@ -100,7 +95,23 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("description", noteSelected.notesDescription)
             startActivity(intent)
         }
+    }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.popup_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle item selection
+        return when (item.itemId) {
+            R.id.removeAllNotesOption -> {
+                Toast.makeText(this, "TO DO", Toast.LENGTH_LONG).show()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun initRecyclerView() {
@@ -108,5 +119,11 @@ class MainActivity : AppCompatActivity() {
         notesAdapter = NotesAdapter()
         recyclerView.adapter = notesAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
+    }
+
+    private fun notesToolbar(){
+        val toolbar = binding.notesToolbar
+        toolbar.title = "My Notes"
+        setSupportActionBar(toolbar)
     }
 }

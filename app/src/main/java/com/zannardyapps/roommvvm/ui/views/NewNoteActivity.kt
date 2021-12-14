@@ -15,31 +15,30 @@ class NewNoteActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityNewNoteBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        notesToolbar()
     }
 
     override fun onStart() {
         super.onStart()
-
         binding.btnAddNote.setOnClickListener {
-
             val replyIntent = Intent()
-
             if (binding.editTitle.text.isEmpty()){
                 binding.editTitle.error = "required title"
                 setResult(Activity.RESULT_CANCELED, replyIntent)
             } else {
-
                 val title = binding.editTitle.text.toString()
                 val description = binding.editDescription.text.toString()
-
                 replyIntent.putExtra("title", title)
                 replyIntent.putExtra("description", description)
-
                 setResult(Activity.RESULT_OK, replyIntent)
                 finish()
             }
-
         }
+    }
 
+    private fun notesToolbar(){
+        val toolbar = binding.addNotesToolbar
+        toolbar.title = "Add your Note"
+        setSupportActionBar(toolbar)
     }
 }

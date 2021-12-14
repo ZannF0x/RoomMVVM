@@ -11,9 +11,7 @@ data class Notes(
      val notesTitle: String,
 
      @ColumnInfo(name = "notes_description")
-     val notesDescription: String
-
-     ){
+     val notesDescription: String){
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "notes_id")
